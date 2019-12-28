@@ -1,5 +1,4 @@
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 
@@ -26,9 +25,9 @@ class Snake
         size = 3;
     }
 
-    public static void setSize(int size) {
-        Snake.size = size;
-    }
+    public void setScore(int sc) { score = sc; }
+
+    public static void setSize(int size) { Snake.size = size; }
 
     public static int getSize() {
         return size;
@@ -132,7 +131,6 @@ class Snake
             tmp = y.get(0);
             y.set(0, tmp+10);
         }
-        //controller.setStatus(true);
     }
 
     public void locateFood()

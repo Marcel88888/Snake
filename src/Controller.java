@@ -1,9 +1,9 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 // TODO WYMIARY
 // TODO WSZYSTKIE 10
+// TODO GRAFIKI
+// TODO DOKUMENTACJA
 
 class Controller {
 
@@ -22,6 +22,10 @@ class Controller {
         this.board = window.getBoard();
         initGame();
     }
+
+    public Snake getSnake() { return snake; }
+
+    public Window getWindow() { return window; };
 
     public Board getBoard() { return board; }
 
@@ -48,6 +52,8 @@ class Controller {
     public ArrayList<Integer> readY() {
         return snake.getY();
     }
+
+    public int readScore() { return snake.getScore(); }
 
     public int readSnakeSize() {
         return Snake.getSize();
@@ -95,13 +101,15 @@ class Controller {
         timer = new Timer(DELAY, board);
     }
 
+    public void orderToResetScore() {snake.setScore(0);}
+
     public void control()
     {
         if (status) {
-            System.out.println("Gramy");
             snake.checkFood();
             snake.checkCollision();
             snake.move();
+            board.repaint();
         } else {
             timer.stop();
             snake.clearLists();
@@ -115,10 +123,10 @@ class Controller {
             snake.setDown(false);
 
             Window.enableStart(true);
-            Window.enableScores(true);
-            //EndOfGame end = new EndOfGame(); TODO
+            Window.enableHighcores(true);
+            board.repaint();
+            EndOfGame endOfGame = new EndOfGame(this);
         }
-        board.repaint();
     }
 
     public void orderToTurn(Directions dir)
