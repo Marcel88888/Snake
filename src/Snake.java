@@ -184,4 +184,6 @@ class Snake
             locateFood();
         }
     }
+
+    public void resetScore() { score = 0; }
 }

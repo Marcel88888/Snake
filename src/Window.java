@@ -95,6 +95,8 @@ public class Window extends JFrame
         public void actionPerformed(ActionEvent e){
             start.setEnabled(false);
             highscores.setEnabled(false);
+            controller.orderToResetScore();
+            setScoreText(0);
             controller.startTimer();
         }
     }

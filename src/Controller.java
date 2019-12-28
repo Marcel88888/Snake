@@ -96,6 +96,7 @@ class Controller {
 
     public void initGame()
     {
+        snake.resetScore();
         snake.makeFirstBodyUnits();
         snake.locateFood();
         timer = new Timer(DELAY, board);
