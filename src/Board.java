@@ -11,22 +11,22 @@ import java.awt.Image;
 class Board extends JPanel implements ActionListener
 {
     private Controller controller;
-    private Adapter adapter;
 
     private Image head;
     private Image bodyUnit;
     private Image food;
     private Image wall;
 
-    private final int HEIGHT = 372;
     private final int WIDTH = 400;
+    private final int HEIGHT = 370;
+    private final int PIXELS_SIZE = 10;
 
     public Board(Controller controller)
     {
         this.controller = controller;
 
         addKeyListener(new Adapter());
-        setBackground(Color.black);
+        setBackground(Color.white);
 
         ImageIcon h = new ImageIcon(this.getClass().getResource("head.jpg"));
         head = h.getImage();
@@ -40,16 +40,14 @@ class Board extends JPanel implements ActionListener
         ImageIcon w = new ImageIcon(this.getClass().getResource("wall.jpg"));
         wall = w.getImage();
 
-        setFocusable(true); // ???????????????????????????????????
+        setFocusable(true);
     }
 
-    public int getHeight() {
-        return HEIGHT;
-    }
+    public int getPIXELS_SIZE() { return PIXELS_SIZE; }
 
-    public int getWidth() {
-        return WIDTH;
-    }
+    public int getHEIGHT() { return HEIGHT; }
+
+    public int getWIDTH() { return WIDTH; }
 
     public void actionPerformed(ActionEvent e) { controller.control(); }
 
@@ -68,15 +66,15 @@ class Board extends JPanel implements ActionListener
                     g.drawImage(bodyUnit, controller.readX().get(i), controller.readY().get(i), this);
             }
         }
-        for (int i=0; i<=390; i+=10)
+        for (int i=0; i<=WIDTH-PIXELS_SIZE; i+=PIXELS_SIZE)
         {//TODO ZMIENIC WYMIAR
             g.drawImage(wall, i, 0, this);
-            g.drawImage(wall, i, 360, this);
+            g.drawImage(wall, i, HEIGHT-PIXELS_SIZE, this);
         }
-        for (int i=10; i<360; i+=10)
+        for (int i=PIXELS_SIZE; i<HEIGHT-PIXELS_SIZE; i+=PIXELS_SIZE)
         {//TODO ZMIENIC WYMIAR
             g.drawImage(wall, 0, i, this);
-            g.drawImage(wall, 390, i, this);
+            g.drawImage(wall, WIDTH-PIXELS_SIZE, i, this);
         }
     }
 

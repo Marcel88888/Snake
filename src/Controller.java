@@ -1,9 +1,8 @@
 import javax.swing.*;
 import java.util.ArrayList;
-// TODO WYMIARY
-// TODO WSZYSTKIE 10
 // TODO GRAFIKI
 // TODO DOKUMENTACJA
+// TODO IKONKA JAR
 
 class Controller {
 
@@ -13,33 +12,20 @@ class Controller {
 
     boolean status = true;
     static Timer timer;
-    private final int DELAY = 100;
 
     public Controller()
     {
         this.snake = new Snake(this);
-        this.window = new Window(this);
+        window = new Window(this);
         this.board = window.getBoard();
         initGame();
     }
 
-    public Snake getSnake() { return snake; }
+    public boolean isStatus() { return status; }
 
-    public Window getWindow() { return window; };
+    public void setStatus(boolean status) { this.status = status; }
 
-    public Board getBoard() { return board; }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public int readAppleX() {
-        return snake.getAppleX();
-    }
+    public int readAppleX() { return snake.getAppleX(); }
 
     public int readAppleY() {
         return snake.getAppleY();
@@ -55,17 +41,11 @@ class Controller {
 
     public int readScore() { return snake.getScore(); }
 
-    public int readSnakeSize() {
-        return Snake.getSize();
-    }
+    public int readPIXELS_SIZE() { return board.getPIXELS_SIZE(); }
 
-    public int readBoardWidth() {
-        return board.getWidth();
-    }
+    public int readWIDTH() { return board.getWIDTH(); }
 
-    public int readBoardHeight() {
-        return board.getHeight();
-    }
+    public int readHEIGHT() { return board.getHEIGHT(); }
 
     public boolean checkIsUp() {
         return snake.isUp();
@@ -99,7 +79,8 @@ class Controller {
         snake.resetScore();
         snake.makeFirstBodyUnits();
         snake.locateFood();
-        timer = new Timer(DELAY, board);
+        int delay = 100;
+        timer = new Timer(delay, board);
     }
 
     public void orderToResetScore() {snake.setScore(0);}
@@ -126,7 +107,7 @@ class Controller {
             Window.enableStart(true);
             Window.enableHighcores(true);
             board.repaint();
-            EndOfGame endOfGame = new EndOfGame(this);
+            new EndOfGame(this);
         }
     }
 

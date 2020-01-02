@@ -1,4 +1,3 @@
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 
@@ -20,8 +19,8 @@ class Snake
 
     public Snake(Controller controller) {
         this.controller = controller;
-        this.x = new ArrayList<Integer>();
-        this.y = new ArrayList<Integer>();
+        this.x = new ArrayList<>();
+        this.y = new ArrayList<>();
         size = 3;
     }
 
@@ -92,13 +91,11 @@ class Snake
         y.clear();
     }
 
-    public void actionPerformed(ActionEvent e) { controller.control(); }
-
     public void makeFirstBodyUnits()
     {
         for (int i=0; i<size; i++)
         {
-            x.add(180 + i*10);
+            x.add(180 + i*controller.readPIXELS_SIZE());
             y.add(180);
         }
     }
@@ -114,22 +111,22 @@ class Snake
         if (right)
         {
             tmp = x.get(0);
-            x.set(0, tmp+10);
+            x.set(0, tmp+controller.readPIXELS_SIZE());
         }
         if (left)
         {
             tmp = x.get(0);
-            x.set(0, tmp-10);
+            x.set(0, tmp-controller.readPIXELS_SIZE());
         }
         if (up)
         {
             tmp = y.get(0);
-            y.set(0, tmp-10);
+            y.set(0, tmp-controller.readPIXELS_SIZE());
         }
         if (down)
         {
             tmp = y.get(0);
-            y.set(0, tmp+10);
+            y.set(0, tmp+controller.readPIXELS_SIZE());
         }
     }
 
@@ -138,10 +135,10 @@ class Snake
         boolean tmp = true;
         while (tmp)
         {
-            int t = (int) (Math.random()*38+1);
-            apple_x = t * 10;
-            t = (int) (Math.random()*35+1);
-            apple_y = t * 10;
+            int t = (int) (Math.random()* ((controller.readWIDTH() - 2 * controller.readPIXELS_SIZE()) / 10 ) + 1);
+            apple_x = t * controller.readPIXELS_SIZE();
+            t = (int) (Math.random()* ((controller.readHEIGHT() - 2 * controller.readPIXELS_SIZE()) / 10 ) + 1);
+            apple_y = t * controller.readPIXELS_SIZE();
 
             if (!x.contains(apple_x) && !y.contains(apple_y))
                 tmp = false;
@@ -159,16 +156,16 @@ class Snake
             }
         }
 
-        if (x.get(0) > 380) // TODO ZMIENIC ROZMIAR
+        if (x.get(0) > controller.readWIDTH()-2*controller.readPIXELS_SIZE())
             controller.setStatus(false);
 
-        if (x.get(0) < 10)
+        if (x.get(0) < controller.readPIXELS_SIZE())
             controller.setStatus(false);
 
-        if (y.get(0) > 350) // TODO ZMIENIC ROZMIAR
+        if (y.get(0) > controller.readHEIGHT()-2*controller.readPIXELS_SIZE())
             controller.setStatus(false);
 
-        if (y.get(0) < 10)
+        if (y.get(0) < controller.readPIXELS_SIZE())
             controller.setStatus(false);
     }
 
