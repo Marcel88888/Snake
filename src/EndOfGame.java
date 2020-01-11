@@ -13,11 +13,26 @@ import java.util.Map;
 import java.util.*;
 import java.lang.*;
 
+/**
+ * The class inheriting from JDialog class displaying the window to type the nickname
+ */
 public class EndOfGame extends JDialog {
 
+    /**
+     * Controller class' object
+     */
     private Controller controller;
+    /**
+     * The field to type the player's own nickname
+     */
     private JTextField name;
 
+    /**
+     * The constructor of the class which sets the title of the window, the sizes of the elements of the window, the
+     * colour of the background, adds JLabel object to display the player's final score, adds JButton object to close
+     * the window and all the necessary things to display all the elements correctly.
+     * @param controller Controller class' object
+     */
     public EndOfGame(Controller controller)
     {
         this.controller = controller;
@@ -57,6 +72,11 @@ public class EndOfGame extends JDialog {
         setVisible(true);
     }
 
+    /**
+     * Checks if the player's final score is high enough to be saved in the file which stores highscores. If so, adds
+     * this score to the file and removes the worst highscore, sorts them by value and saves the file; if not- does
+     * not change the content of the file.
+     */
     public void saveScore()
     {
         int currentScore = controller.readScore();
@@ -119,6 +139,11 @@ public class EndOfGame extends JDialog {
         }
     }
 
+    /**
+     * Sorts a hashmap by values.
+     * @param hm hashmap to sort
+     * @return hashmap sorted by values
+     */
     public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm)
     {
         List<Map.Entry<String, Integer> > list =
@@ -133,8 +158,18 @@ public class EndOfGame extends JDialog {
         return temp;
     }
 
+    /**
+     * Inner class for listening the events for the button which closes the EndOfGame window.
+     */
     private class End implements ActionListener
     {
+        /**
+         * If the player filled the field with the nickname and it starts with a digit or a letter the method calls
+         * saveScore() method, resets the score, change the displayed score and calls the JFrame's dispose() method.
+         * If the nickname does not start with a digit or a letter is sets text "Unknown player"on the JTextField.
+         * If the player did not fill the field the method does nothing.
+         * @param e ActionEvent class' object
+         */
         public void actionPerformed(ActionEvent e)
         {
             if (!(name.getText().equals("")))
@@ -143,7 +178,7 @@ public class EndOfGame extends JDialog {
                 {
                     saveScore();
                     controller.orderToResetScore();
-                    Window.setScoreText(0);
+                    Window.setScoreText(controller.readScore());
                     dispose();
                 }
                 else { name.setText("Unknown player");}

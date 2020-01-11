@@ -1,22 +1,55 @@
 import java.util.ArrayList;
 
-
+/**
+ * Stores the data about the state of the game.
+ */
 class Snake
 {
+    /**
+     * The object of class Controller
+     */
     private Controller controller;
-
+    /**
+     * The current size of the snake
+     */
     private static int size;
+    /**
+     * The current score of the player
+     */
     private static int score = 0;
-
-    private int apple_x;
-    private int apple_y;
+    /**
+     * The x coordinate of the food location
+     */
+    private int food_x;
+    /**
+     * The y coordinate of the food location
+     */
+    private int food_y;
+    /**
+     * The lists of coordinates of snake's body units' location
+     */
     private ArrayList<Integer> x, y;
-
+    /**
+     * The boolean if the snake is going up
+     */
     private boolean up = false;
+    /**
+     * The boolean if the snake is going down
+     */
     private boolean down = false;
+    /**
+     * The boolean if the snake is going left
+     */
     private boolean left = true;
+    /**
+     * The boolean if the snake is going right
+     */
     private boolean right = false;
 
+    /**
+     * The constructor of the class initializing values of the fields: controller, x, y and size
+     * @param controller Object of the Controller class
+     */
     public Snake(Controller controller) {
         this.controller = controller;
         this.x = new ArrayList<>();
@@ -24,73 +57,98 @@ class Snake
         size = 3;
     }
 
-    public void setScore(int sc) { score = sc; }
+    /**
+     * @param sc the current player's score to set
+     */
+    public static void setScore(int sc) { score = sc; }
 
+    /**
+     * @param size the current size of the snake to set
+     */
     public static void setSize(int size) { Snake.size = size; }
 
-    public static int getSize() {
-        return size;
-    }
+    /**
+     * @return the current score of the player
+     */
+    public static int getScore() { return score; }
 
-    public void setUp(boolean up) {
-        this.up = up;
-    }
+    /**
+     * @return the current value of the size of the snake
+     */
+    public static int getSize() { return size; }
 
-    public void setDown(boolean down) {
-        this.down = down;
-    }
+    /**
+     * @param up the boolean value of up to set
+     */
+    public void setUp(boolean up) { this.up = up; }
 
-    public void setLeft(boolean left) {
-        this.left = left;
-    }
+    /**
+     * @param down the boolean value of down to set
+     */
+    public void setDown(boolean down) { this.down = down; }
 
-    public void setRight(boolean right) {
-        this.right = right;
-    }
+    /**
+     * @param left the boolean value of left to set
+     */
+    public void setLeft(boolean left) { this.left = left; }
 
-    public boolean isUp() {
-        return up;
-    }
+    /**
+     * @param right the boolean value of right to set
+     */
+    public void setRight(boolean right) { this.right = right; }
 
-    public boolean isDown() {
-        return down;
-    }
+    /**
+     * @return the boolean value of up
+     */
+    public boolean isUp() { return up; }
 
-    public boolean isLeft() {
-        return left;
-    }
+    /**
+     * @return the boolean value of down
+     */
+    public boolean isDown() { return down; }
 
-    public boolean isRight() {
-        return right;
-    }
+    /**
+     * @return the boolean value of left
+     */
+    public boolean isLeft() { return left; }
 
-    public ArrayList<Integer> getX() {
-        return x;
-    }
+    /**
+     * @return the boolean value of right
+     */
+    public boolean isRight() { return right; }
 
-    public ArrayList<Integer> getY() {
-        return y;
-    }
+    /**
+     * @return the list of x coordinates of the snake's body units' location
+     */
+    public ArrayList<Integer> getX() { return x; }
 
-    public int getAppleX() {
-        return apple_x;
-    }
+    /**
+     * @return the list of y coordinates of the snake's body units' location
+     */
+    public ArrayList<Integer> getY() { return y; }
 
-    public int getAppleY() {
-        return apple_y;
-    }
+    /**
+     * @return the x coordinate of the current food location
+     */
+    public int getFoodX() { return food_x; }
 
-    public int getScore()
-    {
-        return score;
-    }
+    /**
+     * @return the y coordinate of the current food location
+     */
+    public int getFoodY() { return food_y; }
 
+    /**
+     * Clears the lists of x and y coordinates of snake's body units' location.
+     */
     public void clearLists()
     {
         x.clear();
         y.clear();
     }
 
+    /**
+     * Makes the initials snake's body units.
+     */
     public void makeFirstBodyUnits()
     {
         for (int i=0; i<size; i++)
@@ -100,6 +158,9 @@ class Snake
         }
     }
 
+    /**
+     * Changes the x and y coordinates of snake's body units according to the current direction of snake's movement.
+     */
     public void move()
     {
         int tmp;
@@ -130,21 +191,27 @@ class Snake
         }
     }
 
+    /**
+     * Draws the new x and y coordinates of food location and check if the new value is not the same as the old one.
+     */
     public void locateFood()
     {
         boolean tmp = true;
         while (tmp)
         {
             int t = (int) (Math.random()* ((controller.readWIDTH() - 2 * controller.readPIXELS_SIZE()) / 10 ) + 1);
-            apple_x = t * controller.readPIXELS_SIZE();
+            food_x = t * controller.readPIXELS_SIZE();
             t = (int) (Math.random()* ((controller.readHEIGHT() - 2 * controller.readPIXELS_SIZE()) / 10 ) + 1);
-            apple_y = t * controller.readPIXELS_SIZE();
+            food_y = t * controller.readPIXELS_SIZE();
 
-            if (!x.contains(apple_x) && !y.contains(apple_y))
+            if (!x.contains(food_x) && !y.contains(food_y))
                 tmp = false;
         }
     }
 
+    /**
+     * Checks if the snake did not go out from the board or did not hit himself.
+     */
     public void checkCollision()
     {
         for (int i=1; i<size; i++)
@@ -169,9 +236,14 @@ class Snake
             controller.setStatus(false);
     }
 
+    /**
+     * Checks if the current location of head of the snake is the same as the location of the food. If so, the function
+     * increments the size of the snake, ups the score by 10 points, informs the controller about that, adds new body
+     * unit and locates new food.
+     */
     public void checkFood()
     {
-        if (x.get(0) == apple_x && y.get(0) == apple_y)
+        if (x.get(0) == food_x && y.get(0) == food_y)
         {
             ++size;
             score += 10;
@@ -181,6 +253,4 @@ class Snake
             locateFood();
         }
     }
-
-    public void resetScore() { score = 0; }
 }

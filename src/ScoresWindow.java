@@ -10,12 +10,25 @@ import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import java.awt.Font;
 
+/**
+ * The class inheriting from JDialog class displaying the highscores
+ */
 public class ScoresWindow extends JDialog
 {
+    /**
+     * The text area for displaying the usernames and scores.
+     */
     private JTextArea textArea;
-    private String text = "";
+    /**
+     * StringBuilder class' object for making a text to display from a text from the file with highscores.
+     */
     StringBuilder sb = new StringBuilder();
 
+    /**
+     * The constructor of the class which sets the title of the window, the sizes of the elements of the window, the
+     * font of the text, the colour of the backround, adds JButton object to close the window and all the necessary
+     * things to display all the elements correctly.
+     */
     public ScoresWindow()
     {
         setTitle("Highscores");
@@ -48,8 +61,12 @@ public class ScoresWindow extends JDialog
         setVisible(true);
     }
 
+    /**
+     * Builds a text to display from a text from the file and sets it.
+     */
     public void displayHighscores()
     {
+        String text = "";
         try
         {
             String highscores_file_path = "/home/dell/Studia/sem4/PROZ/Snake/src/highscores.txt";
@@ -74,15 +91,19 @@ public class ScoresWindow extends JDialog
             }
             bufferedReader.close();
         }
-        catch(IOException exc) { System.out.println(exc.getMessage()); }
+        catch(IOException exc) { System.out.println(exc.getMessage());  }
         textArea.setText(text);
     }
 
+    /**
+     * Inner class for listening the events for the button which closes the ScoresWindow window.
+     */
     private class Close implements ActionListener
     {
-        public void actionPerformed(ActionEvent e)
-        {
-            dispose();
-        }
+        /**
+         * After clicking on the button which closes the ScoresWindow window calls the JFrame's dispose() method.
+         * @param e ActionEvent class' object
+         */
+        public void actionPerformed(ActionEvent e) { dispose(); }
     }
 }

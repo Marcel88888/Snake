@@ -4,15 +4,37 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The class inheriting from JFrame class
+ */
 public class Window extends JFrame
 {
+    /**
+     * The Controller class' object
+     */
     private Controller controller;
+    /**
+     * The Board class' object
+     */
     private Board board;
-
+    /**
+     * The JButton class' object for the button which starts the game
+     */
     private static JButton start;
+    /**
+     * The JButton class' object for the button which displays highscores
+     */
     private static JButton highscores;
+    /**
+     * The JLabel class' object for displaying the score of the player
+     */
     private static JLabel score;
 
+    /**
+     * The constructor of the class which sets the title of the window of the game, sets the sizes of the elements of
+     * the window, loads the logo of the game and do all the necessary things to display all the elements correctly.
+     * @param controller the Controller class' object
+     */
     public Window(Controller controller)
     {
         super("Snake");
@@ -69,41 +91,72 @@ public class Window extends JFrame
         setVisible(true);
     }
 
+    /**
+     * @return the object of the Board class
+     */
     public Board getBoard() { return board; }
 
-    public static void setScoreText(int sc) {
-        Window.score.setText(String.valueOf(sc));
-    }
+    /**
+     * Sets the score text to display.
+     * @param sc the current score of the player
+     */
+    public static void setScoreText(int sc) { Window.score.setText(String.valueOf(sc)); }
 
-    public static void enableStart(boolean bl) {
-        start.setEnabled(bl);
-    }
+    /**
+     * Enables/disables the button which starts the game.
+     * @param bl value determining if enable or disable the button (true- enable; false- disable)
+     */
+    public static void enableStart(boolean bl) { start.setEnabled(bl); }
 
-    public static void enableHighcores(boolean bl) {
-        highscores.setEnabled(bl);
-    }
+    /**
+     * Enables/disables the button which displays highscores.
+     * @param bl value determining if enable or disable the button (true- enable; false- disable)
+     */
+    public static void enableHighcores(boolean bl) { highscores.setEnabled(bl); }
 
+    /**
+     * Inner class for listening the events for the button which starts the game
+     */
     private class StartListener implements  ActionListener
     {
+        /**
+         * After clicking on the button which starts the game disables the buttons start and highscores, changes the
+         * displayed score and starts the timer.
+         * @param e ActionEvent class' object
+         */
         public void actionPerformed(ActionEvent e){
             start.setEnabled(false);
             highscores.setEnabled(false);
             controller.orderToResetScore();
-            setScoreText(0);
+            setScoreText(controller.readScore());
             controller.startTimer();
         }
     }
 
+    /**
+     * Inner class for listening the events for the button which displays highscores.
+     */
     private static class ScoreListener implements ActionListener
     {
+        /**
+         * After clicking on the button which displays highscores makes the new object of class ScoresWindow.
+         * @param e ActionEvent class' object
+         */
         public void actionPerformed(ActionEvent e)
         {
             new ScoresWindow();
         }
     }
 
+    /**
+     * Inner class for listening the events for the button which ends the game.
+     */
     private class EndGameListener implements ActionListener
     {
+        /**
+         * After clicking on the button which ends the game tops the timer and calls the JFrame's dispose() method.
+         * @param e ActionEvent class' object
+         */
         public void actionPerformed(ActionEvent e)
         {
             controller.stopTimer();
